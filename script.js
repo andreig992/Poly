@@ -2,25 +2,29 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext('2d');
 
 var sides = prompt("How many sides? (Default 5)");
-var rad = prompt("What's the radius? (Default 50)")
-
-if(sides == 0){
+var rad = prompt("What's the radius? (Default 100)");
+if (sides == 0) {
   sides = 5
 }
-if(rad == 0){
-  rad = 50;
+if (rad == 0) {
+  rad = 100;
 }
 resize();
-
-window.addEventListener("resize", resize)
-
-function resize(){
+window.addEventListener("resize", resize);
+function resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  for(i=0; i< 360; i+= 360/sides){
-    ctx.moveTo(canvas.width/2+ rad*Math.cos((i*(Math.PI/180))), canvas.height/2+rad*Math.sin((i*(Math.PI/180))));
-    ctx.lineTo(canvas.width/2+ rad*Math.cos(((i+(360/sides))*(Math.PI/180))), canvas.height/2+rad*Math.sin(((i+360/sides)*(Math.PI/180))));
+  for (i = 0; i < 360; i += 360 / sides) {
+    var startX = canvas.width / 2 + rad * Math.cos(toRad(i));
+    var startY = canvas.height / 2 + rad * Math.sin(toRad(i));
+    var endX = canvas.width / 2 + rad * Math.cos(toRad(i+ 360/sides));
+    var endY = canvas.height / 2 + rad * Math.sin(toRad(i+ 360/sides));
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
     ctx.stroke();
   }
+}
+function toRad(deg){
+  return deg * (Math.PI / 180);
 }
